@@ -1,10 +1,13 @@
-
 const http = require('http');
 
 const server = http.createServer((req, res) => {
     const url = new URL(req.url, 'http://localhost:3000');
 
-    if (url.pathname === '/login') {
+    if (url.pathname === '/about') {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/plain');
+        res.end('About Page\n');
+    } else if (url.pathname === '/login') {
         const username = url.searchParams.get('username');
         const password = url.searchParams.get('password');
 
@@ -22,5 +25,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(3000, () => {
-    console.log('Hello, this is a basic web app!');
+    console.log('Server running at http://localhost:3000/');
 });
