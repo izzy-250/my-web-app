@@ -3,6 +3,7 @@ const http = require('http');
 const server = http.createServer((req, res) => {
     const url = new URL(req.url, 'http://localhost:3000');
 
+    // About page route: returns a plain-text "About Page" response
     if (url.pathname === '/about') {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/plain');
