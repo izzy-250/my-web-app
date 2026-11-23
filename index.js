@@ -1,14 +1,30 @@
-const http = require("http");
-
-const PORT = 3000;
-const message = "Hello, this is a basic web app!";
+const http = require('http');
 
 const server = http.createServer((req, res) => {
-  res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
-  res.end(`${message}\n`);
+    const url = new URL(req.url, 'http://localhost:3000');
+
+    // About page route: returns a plain-text "About Page" response
+    if (url.pathname === '/about') {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/plain');
+        res.end('About Page\n');
+    } else if (url.pathname === '/login') {
+        const username = url.searchParams.get('username');
+        const password = url.searchParams.get('password');
+
+        if (username === 'admin' && password === 'password123') {
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end('Login successful. Welcome, admin!');
+        } else {
+            res.writeHead(401, {'Content-Type': 'text/plain'});
+            res.end('Invalid username or password');
+        }
+    } else {
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end('Hello, this is a basic web app!');
+    }
 });
 
-server.listen(PORT, () => {
-  console.log(message);
-  console.log(`Server running at http://localhost:${PORT}`);
+server.listen(3000, () => {
+    console.log('Server running at http://localhost:3000/');
 });
